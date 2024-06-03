@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Variables1 {
-    string public name = 'Example 1';
+    string public name = "Example 1";
 }
 
 contract Variables2 {
@@ -28,7 +28,7 @@ contract Variables3 {
 }
 
 contract Variables4 {
-    string constant NAME = 'Example 4';
+    string constant NAME = "Example 4";
     address immutable OWNER;
 
     constructor() {
@@ -45,5 +45,22 @@ contract Variables4 {
 }
 
 contract Variables5 {
-    
+    address public contractAddress;
+    address public payer;
+    address public origin;
+    uint public amount;
+
+    constructor() {
+        contractAddress = address(this);
+    }
+
+    function pay() public payable {
+        payer = msg.sender;
+        origin = tx.origin;
+        amount = msg.value;
+    }
+
+    function getBlockInfo() public view returns (uint, uint, uint) {
+        return (block.number, block.timestamp, block.difficulty);
+    }
 }
