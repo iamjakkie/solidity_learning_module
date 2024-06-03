@@ -43,3 +43,7 @@ contract Variables4 {
         return OWNER;
     }
 }
+
+contract Variables5 {
+    
+}
