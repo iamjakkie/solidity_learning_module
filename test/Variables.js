@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
-describe('Types', () => {
+describe('Variables', () => {
 
     it('Default Variable values', async () => {
         const Contract = await ethers.getContractFactory('Variables1');
