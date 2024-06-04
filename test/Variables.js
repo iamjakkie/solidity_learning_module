@@ -92,6 +92,11 @@ describe('Variables', () => {
             expect(await contract.payer()).to.equal(accounts[0].address)
             expect(await contract.origin()).to.equal(accounts[0].address)
         })
+
+        it('"block" global variable', async () => {
+            let res = await contract.getBlockInfo()
+            console.log(res)
+        })
     })
 
 });
