@@ -61,6 +61,6 @@ contract Variables5 {
     }
 
     function getBlockInfo() public view returns (uint, uint, uint) {
-        return (block.number, block.timestamp, block.difficulty);
+        return (block.number, block.timestamp, block.chainid);
     }
 }

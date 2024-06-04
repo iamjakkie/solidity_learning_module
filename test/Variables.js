@@ -1,6 +1,10 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
+const tokens = (amount) => ethers.parseEther(amount.toString());
+
+const ether = tokens;
+
 describe('Variables', () => {
 
     describe('Default Variable values', () => {
@@ -69,6 +73,25 @@ describe('Variables', () => {
         })
     })
 
-    describe('')
+    describe('Global variables', () => {
+        let contract
+
+        beforeEach(async () => {
+            const Contract = await ethers.getContractFactory('Variables5');
+            contract = await Contract.deploy();
+        })
+
+        it('"This" global variable', async() => {
+            expect(await contract.contractAddress()).to.equal(contract.target)
+        })
+
+        it('"msg" and "tx" global variables', async () => {
+            await contract.pay({ value: ether(1) })
+            expect(await contract.amount()).to.equal(ether(1))
+            let accounts = await ethers.getSigners();
+            expect(await contract.payer()).to.equal(accounts[0].address)
+            expect(await contract.origin()).to.equal(accounts[0].address)
+        })
+    })
 
 });
