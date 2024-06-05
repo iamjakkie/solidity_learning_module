@@ -102,4 +102,26 @@ describe('Functions', () => {
             expect(await contract.count()).to.equal(1)
         })
     })
+
+    describe('Example 5', () => {
+        let contract
+
+        beforeEach(async () => {
+            const Contract = await ethers.getContractFactory('Functions5');
+            contract = await Contract.deploy();
+        })
+
+        it('Calls a view function', async () => {
+            expect(await contract.getName()).to.equal('Example 5')
+        })
+
+        it('Calls an add function', async () => {
+            expect(await contract.add(1, 2)).to.equal(3)
+        })
+
+        it('Calls a payable function', async () => {
+            await contract.pay({ value: ether(1) })
+            expect(await contract.balance()).to.equal(ether(1))
+        })
+    })
 })
