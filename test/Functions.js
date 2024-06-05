@@ -124,4 +124,21 @@ describe('Functions', () => {
             expect(await contract.balance()).to.equal(ether(1))
         })
     })
+
+    describe('Example 6', () => {
+        let contract, owner, account1
+
+        beforeEach(async () => {
+            const Contract = await ethers.getContractFactory('Functions6');
+            contract = await Contract.deploy();
+            let accounts = await ethers.getSigners()
+            owner = accounts[0]
+            account1 = accounts[1]
+        })
+
+        it('Owner can call onlyOwner function', async () => {
+            await contract.connect(owner).setName1('xyz');
+            expect(await contract.name()).to.equal('xyz')
+        })
+    })
 })

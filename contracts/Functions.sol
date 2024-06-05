@@ -91,3 +91,32 @@ contract Functions5 {
         balance = msg.value;
     }
 }
+
+contract Functions6 {
+    address private owner;
+    string public name;
+    bool private nameSet = false;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+
+    modifier onlyOnce {
+        require(!nameSet, "Name already set");
+        _;
+    }
+
+    function setName1(string memory _name) onlyOwner public {
+        name = _name;
+    }
+
+    function setName2(string memory _name) onlyOwner onlyOnce public {
+        name = _name;
+        nameSet = true;
+    }
+}
