@@ -68,6 +68,6 @@ contract Variables5 {
 contract Variables6 {
     string name1 = "Name1";
     string private name2 = "Name2";
-    string internal name2 = "Name3";
+    string internal name3 = "Name3";
     string public name4 = "Name4";
 }
