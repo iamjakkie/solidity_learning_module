@@ -31,4 +31,35 @@ describe('Constructors', () => {
         })
     })
 
+    describe("Example 4", () => {
+        it("Contract with a payable constructor", async () => {
+            const Contract = await ethers.getContractFactory('Constructors4');
+            let contract = await Contract.deploy({ value: ether(1) });
+            let balance = await ethers.provider.getBalance(contract.target);
+            expect(ethers.formatEther(balance)).to.equal('1.0')
+        })
+    })
+
+    describe("Example 5", () => {
+        it("Contract inherits a constructor", async () => {
+            const Contract = await ethers.getContractFactory('Constructors5');
+            let contract = await Contract.deploy();
+            expect(await contract.name()).to.equal('Example 5')
+        })
+
+        it("Contract stored value is set", async () => {
+            const Contract = await ethers.getContractFactory('Constructors5');
+            let contract = await Contract.deploy();
+            expect(await contract.description()).to.equal("Inherits from Parent1")
+        })
+    })
+
+    describe("Example 6", () => {
+        it("Contract extends inherited constructor", async () => {
+            const Contract = await ethers.getContractFactory('Constructors6');
+            let contract = await Contract.deploy("Example 6", "Random description");
+            expect(await contract.name()).to.equal('Example 6')
+            expect(await contract.description()).to.equal("Random description")
+        })
+    })
 })
