@@ -140,5 +140,62 @@ describe('Functions', () => {
             await contract.connect(owner).setName1('xyz');
             expect(await contract.name()).to.equal('xyz')
         })
+
+        it('Non-owner cannot call onlyOwner function', async () => {
+            await expect(contract.connect(account1).setName1('xyz')).to.be.reverted
+        })
+
+        it('Owner can call function only once', async () => {
+            await contract.connect(owner).setName2('xyz');
+            expect(await contract.name()).to.equal('xyz')
+            await expect(contract.connect(owner).setName2('abc')).to.be.reverted
+        })
+    })
+
+    describe('Example 7', () => {
+        let contract
+
+        beforeEach(async () => {
+            const Contract = await ethers.getContractFactory('Functions7');
+            contract = await Contract.deploy();
+        })
+
+        it('Explicit return value', async () => {
+            expect(await contract.getName1()).to.equal('Example 7')
+        })
+
+        it('Implicit return value', async () => {
+            expect(await contract.getName2()).to.equal('')
+        })
+
+        it('Returns the value of another function', async () => {
+            expect(await contract.getName3()).to.equal('Example 7')
+        })
+
+        it('Returns a named variable without declaration', async () => {
+            expect(await contract.getName4()).to.equal('Another name')
+        })
+
+        it('Returns a named variable from another function', async () => {
+            expect(await contract.getName5()).to.equal('Another name')
+        })
+
+        it('Returns multiple values', async () => {
+            let [name1, name2] = await contract.getName6()
+            expect(name1).to.equal('Example 7')
+            expect(name2).to.equal('New name')
+        })
+
+        it('Returns multiple values from another function', async () => {
+            let [name1, name2] = await contract.getName6()
+            expect(name1).to.equal('Example 7')
+            expect(name2).to.equal('New name')
+        })
+
+        it('Returns event from a function', async () => {
+            let transaction = await contract.setName1();
+            let result = await transaction.wait()
+            expect(transaction).to.emit(contract, 'NameChanged').withArgs('New name')
+        })
     })
 })

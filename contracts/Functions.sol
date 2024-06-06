@@ -120,3 +120,44 @@ contract Functions6 {
         nameSet = true;
     }
 }
+
+contract Functions7 {
+    string name = 'Example 7';
+
+    function getName1() public view returns (string memory) {
+        return name;
+    }
+
+    function getName2() public view returns (string memory) {
+        name;
+    }
+
+    function getName3() public view returns (string memory) {
+        return getName1();
+    }
+
+    function getName4() public view returns (string memory anotherName) {
+        anotherName = 'Another name';
+    }
+
+    function getName5() public view returns (string memory anotherName) {
+        anotherName = getName4();
+    }
+
+    function getName6() public view returns (string memory name1, string memory name2) {
+        return (name, "New name");
+    }
+
+    function getName7() public view returns (string memory name1, string memory name2) {
+        (name1, name2) = getName6();
+        return (name1, name2);
+    }
+
+    event NameChanged(string oldName, string newName);
+
+    function setName1() public returns (string memory) {
+        name = 'New name';
+        emit NameChanged(name, 'New name');
+        return name;
+    }
+}
