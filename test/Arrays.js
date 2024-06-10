@@ -53,5 +53,37 @@ describe('Array', () => {
             await contract.addToArray(3)
             expect(await contract.getArray()).to.deep.equal([1, 2, 3])
         })
+
+        it('Get array length', async () => {
+            await contract.addToArray(1)
+            await contract.addToArray(2)
+            await contract.addToArray(3)
+            expect(await contract.getLength()).to.equal(3)
+        })
+
+        it('Pop from array', async () => {
+            await contract.addToArray(1)
+            await contract.addToArray(2)
+            await contract.addToArray(3)
+            await contract.pop()
+            expect(await contract.getArray()).to.deep.equal([1, 2])
+        })
+
+        it('Pop from empty array', async () => {
+            expect(await contract.pop()).to.be.reverted
+        })
+
+        it('Pop from array with one element', async () => {
+            await contract.addToArray(1)
+            expect(await contract.getArray()).to.deep.equal([1])
+        })
+
+        it('Remove from array', async () => {
+            await contract.addToArray(1)
+            await contract.addToArray(2)
+            await contract.addToArray(3)
+            await contract.remove(1)
+            expect(await contract.getArray()).to.deep.equal([1, 3])
+        })
     })
 })

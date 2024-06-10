@@ -36,7 +36,15 @@ contract Arrays2 {
         array.push(i);
     }
 
-    function length() public view returns (uint) {
+    function getLength() public view returns (uint) {
         return array.length;
+    }
+
+    function pop() public {
+        array.pop();
+    }
+
+    function remove(uint i) public {
+        delete array[i];
     }
 }
