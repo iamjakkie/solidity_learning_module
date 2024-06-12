@@ -15,6 +15,20 @@ describe('Time', () => {
 
             const Contract = await ethers.getContractFactory('Time1');
             const contract = await Contract.deploy(depositStartTime, withdrawStartTime);
+
+            await expect(contract.deposit({ value: ether(1) })).to.be.revertedWith('deposit not started');
+
+            await time.increase(1001);
+
+            await contract.deposit({ value: ether(1) });
+            expect(await ethers.provider.getBalance(contract.target)).to.equal(ether(1));
+
+            await expect(contract.withdraw()).to.be.revertedWith('withdraw not enabled');
+
+            await time.increaseTo(withdrawStartTime + 1);
+
+            await contract.withdraw();
+            expect(await ethers.provider.getBalance(contract.target)).to.equal(0);
          })
     })
 })
